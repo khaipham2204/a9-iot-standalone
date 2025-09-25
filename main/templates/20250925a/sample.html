@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environmental Sensor Dashboard | Real-time Air Quality Monitoring</title>
+    <meta name="description" content="Real-time environmental sensor monitoring dashboard with air quality index, PM2.5, temperature, humidity, and network status tracking">
+    <meta name="keywords" content="environmental sensors, air quality, AQI, PM2.5, temperature, humidity, IoT dashboard, real-time monitoring">
+    <meta name="author" content="Environmental Monitoring Solutions">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sensor-dashboard.example.com">
+    <meta property="og:title" content="Environmental Sensor Dashboard - Real-time Monitoring">
+    <meta property="og:description" content="Professional environmental sensor monitoring with real-time air quality data">
+    <meta property="og:image" content="/assets/dashboard-preview.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://sensor-dashboard.example.com">
+    <meta property="twitter:title" content="Environmental Sensor Dashboard">
+    <meta property="twitter:description" content="Real-time environmental sensor monitoring dashboard">
+    <meta property="twitter:image" content="/assets/dashboard-preview.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <!-- Progressive Web App -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1e3c72">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Sensor Dashboard">
+    
+    <!-- API and Service Information -->
+    <meta name="api-version" content="v1.2">
+    <meta name="service-type" content="environmental-monitoring">
+    <meta name="data-refresh-rate" content="30000">
+    
+    <link rel="stylesheet" href="sensor-dashboard.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Structured Data for Search Engines -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Environmental Sensor Dashboard",
+      "description": "Real-time environmental monitoring dashboard for air quality, temperature, humidity, and weather data",
+      "url": "https://sensor-dashboard.example.com",
+      "applicationCategory": "Environmental Monitoring",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Real-time Air Quality Monitoring",
+        "Temperature and Humidity Tracking",
+        "PM2.5 and PM10 Measurements",
+        "Network Status Monitoring",
+        "Historical Data Visualization"
+      ]
+    }
+    </script>
+</head>
+<body>
+    <!-- Environmental Sensor Monitoring Dashboard -->
+    <div class="dashboard-container" data-dashboard-type="environmental-sensors" data-refresh-interval="30" data-api-version="v1.2">
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header Section -->
+            <div class="main-header">
+                <div class="funnel-header">
+                    <div class="header-text">
+                        <h3>Trạm Quan Trắc Không Khí Tự Động An Giang</h3>
+                        <p class="date-range">ID: AQI-001 - Thời gian: 12:00 25/09/2025</p>
+                        <p class="date-range">Online</p>
+                    </div>
+                    
+                    <!-- Dropdown Menu Button -->
+                    <div class="dropdown-container">
+                        <button class="menu-btn menu-dropdown" data-action="more" id="dropdownToggle">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        
+                        <!-- Dropdown Menu - Mapped to Dashboard Menu Items -->
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <div class="dropdown-item" data-action="dashboard">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Dashboard</span>
+                            </div>
+                            <div class="dropdown-item" data-action="live-data">
+                                <i class="fas fa-broadcast-tower"></i>
+                                <span>Live Data</span>
+                            </div>
+                            <div class="dropdown-item" data-action="alerts">
+                                <i class="fas fa-bell"></i>
+                                <span>Alerts</span>
+                                <span class="notification-badge-mini">3</span>
+                            </div>
+                            <div class="dropdown-separator"></div>
+                            <div class="dropdown-item" data-action="export">
+                                <i class="fas fa-download"></i>
+                                <span>Export</span>
+                            </div>
+                            <div class="dropdown-item" data-action="calibration">
+                                <i class="fas fa-cogs"></i>
+                                <span>Calibration</span>
+                            </div>
+                            <div class="dropdown-item" data-action="settings">
+                                <i class="fas fa-sliders-h"></i>
+                                <span>Settings</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dashboard Menu Bar - Keep Original Context -->
+                <div class="dashboard-menu">
+                    <div class="menu-group primary">
+                        <button class="menu-btn active" data-action="dashboard">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Dashboard</span>
+                        </button>
+                        <button class="menu-btn" data-action="live-data">
+                            <i class="fas fa-broadcast-tower"></i>
+                            <span>Live Data</span>
+                        </button>
+                        <button class="menu-btn" data-action="alerts">
+                            <i class="fas fa-bell"></i>
+                            <span>Alerts</span>
+                            <span class="notification-badge">3</span>
+                        </button>
+                    </div>
+                    
+                    <div class="menu-group secondary">
+                        <button class="menu-btn" data-action="export">
+                            <i class="fas fa-download"></i>
+                            <span>Export</span>
+                        </button>
+                        <button class="menu-btn" data-action="calibration">
+                            <i class="fas fa-cogs"></i>
+                            <span>Calibration</span>
+                        </button>
+                        <button class="menu-btn" data-action="settings">
+                            <i class="fas fa-sliders-h"></i>
+                            <span>Settings</span>
+                        </button>
+                        <button class="menu-btn menu-dropdown" data-action="more">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Header Cards Container - Hardware Monitoring in Column Layout -->
+                <div class="header-cards-container">
+                    <!-- Hardware Monitoring Table - Column Layout -->
+                    <div class="hardware-monitoring-table">
+                        <div class="hardware-header">
+                            <span class="hardware-title">HARDWARE MONITORING</span>
+                            <span class="hardware-subtitle">Real-time System Status</span>
+                        </div>
+                        
+                        <div class="hardware-grid">
+                            <!-- CPU Column -->
+                            <div class="hardware-column">
+                                <div class="metric-line">
+                                    <div class="metric-icon cpu">
+                                        <i class="fas fa-microchip"></i>
+                                    </div>
+                                    <span class="metric-name">CPU</span>
+                                    <span class="metric-value">12.5%</span>
+                                </div>
+                            </div>
+                            
+                            <!-- RAM Column -->
+                            <div class="hardware-column">
+                                <div class="metric-line">
+                                    <div class="metric-icon ram">
+                                        <i class="fas fa-memory"></i>
+                                    </div>
+                                    <span class="metric-name">RAM</span>
+                                    <span class="metric-value">45.2%</span>
+                                </div>
+                            </div>
+                            
+                            <!-- DISK Column -->
+                            <div class="hardware-column">
+                                <div class="metric-line">
+                                    <div class="metric-icon disk">
+                                        <i class="fas fa-hdd"></i>
+                                    </div>
+                                    <span class="metric-name">DISK</span>
+                                    <span class="metric-value">39.5%</span>
+                                </div>
+                            </div>
+                            
+                            <!-- UPTIME Column -->
+                            <div class="hardware-column">
+                                <div class="metric-line">
+                                    <div class="metric-icon uptime">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <span class="metric-name">UPTIME</span>
+                                    <span class="metric-value">2d 17h 9m</span>
+                                </div>
+                            </div>
+                            
+                            <!-- NETWORK SENT Column -->
+                            <div class="hardware-column">
+                                <div class="metric-line">
+                                    <div class="metric-icon network-sent">
+                                        <i class="fas fa-upload"></i>
+                                    </div>
+                                    <span class="metric-name">SENT</span>
+                                    <span class="metric-value">1.0 MB</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Modbus Column -->
+                            <div class="hardware-column">
+                                <div class="metric-line">
+                                    <div class="metric-icon cpu">
+                                        <i class="fas fa-microchip"></i>
+                                    </div>
+                                    <span class="metric-name">Modbus</span>
+                                    <span class="metric-value">200</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Environmental Sensor Monitoring Section -->
+            <div class="sensor-metrics-grid" data-sensor-group="environmental" data-chart-type="semicircle-gauge">
+                
+                <!-- AQI Index Card - Moved Here and Styled as Sensor Card -->
+                <div class="sensor-gauge-card aqi-sensor-card" data-sensor-id="AQI-001" data-sensor-type="air-quality-index" style="--card-color: #4caf50;">
+                    <div class="card-header">
+                        <i class="fas fa-leaf"></i>
+                        <span class="card-title">Air Quality Index</span>
+                    </div>
+                    <div class="gauge-container aqi-content-container">
+                        <!-- AQI Main Value Display -->
+                        <div class="aqi-main-display">
+                            <div class="aqi-number-large">42</div>
+                            <div class="aqi-status-good">Good</div>
+                        </div>
+                    </div>
+                    
+                    <!-- AQI Warning Levels Indicator -->
+                    <div class="aqi-warning-levels-mini">
+                        <div class="warning-dot good active" title="Good"></div>
+                        <div class="warning-dot moderate" title="Moderate"></div>
+                        <div class="warning-dot unhealthy" title="Unhealthy"></div>
+                        <div class="warning-dot hazardous" title="Hazardous"></div>
+                    </div>
+                </div>
+                
+                <!-- VOC Sensor Card -->
+                <div class="sensor-gauge-card" data-sensor-id="VOC-001" data-sensor-type="air-quality" style="--card-color: #00d4ff;">
+                    <div class="card-header">
+                        <i class="fas fa-wind"></i>
+                        <span class="card-title">VOC Sensor</span>
+                    </div>
+                    <div class="gauge-container">
+                        <canvas class="sensor-gauge" width="120" height="80" data-value="0" data-max="100" data-unit="ppb"></canvas>
+                        <div class="gauge-value">
+                            <span class="value-number">0</span>
+                            <span class="value-unit">ppb</span>
+                        </div>
+                    </div>
+                    <div class="card-description">Volatile Organic Compounds</div>
+                </div>
+
+                <!-- PM2.5 Sensor Card -->
+                <div class="sensor-gauge-card" data-sensor-id="PM25-001" data-sensor-type="particulate-matter" style="--card-color: #ff6b6b;">
+                    <div class="card-header">
+                        <i class="fas fa-smog"></i>
+                        <span class="card-title">PM2.5 Sensor</span>
+                    </div>
+                    <div class="gauge-container">
+                        <canvas class="sensor-gauge" width="120" height="80" data-value="1" data-max="50" data-unit="µg/m³"></canvas>
+                        <div class="gauge-value">
+                            <span class="value-number">1</span>
+                            <span class="value-unit">µg/m³</span>
+                        </div>
+                    </div>
+                    <div class="card-description">Fine Particulate Matter</div>
+                </div>
+
+                <!-- PM1 Sensor Card -->
+                <div class="sensor-gauge-card" data-sensor-id="PM1-001" data-sensor-type="particulate-matter" style="--card-color: #a855f7;">
+                    <div class="card-header">
+                        <i class="fas fa-atom"></i>
+                        <span class="card-title">PM1 Sensor</span>
+                    </div>
+                    <div class="gauge-container">
+                        <canvas class="sensor-gauge" width="120" height="80" data-value="1" data-max="50" data-unit="µg/m³"></canvas>
+                        <div class="gauge-value">
+                            <span class="value-number">1</span>
+                            <span class="value-unit">µg/m³</span>
+                        </div>
+                    </div>
+                    <div class="card-description">Ultra-fine Particles</div>
+                </div>
+
+                <!-- PM10 Sensor Card -->
+                <div class="sensor-gauge-card" data-sensor-id="PM10-001" data-sensor-type="particulate-matter" style="--card-color: #3b82f6;">
+                    <div class="card-header">
+                        <i class="fas fa-cloud"></i>
+                        <span class="card-title">PM10 Sensor</span>
+                    </div>
+                    <div class="gauge-container">
+                        <canvas class="sensor-gauge" width="120" height="80" data-value="1.5" data-max="100" data-unit="µg/m³"></canvas>
+                        <div class="gauge-value">
+                            <span class="value-number">1.5</span>
+                            <span class="value-unit">µg/m³</span>
+                        </div>
+                    </div>
+                    <div class="card-description">Coarse Particulate Matter</div>
+                </div>
+
+                <!-- Humidity Sensor Card -->
+                <div class="sensor-gauge-card" data-sensor-id="HUM-001" data-sensor-type="environmental" style="--card-color: #06b6d4;">
+                    <div class="card-header">
+                        <i class="fas fa-tint"></i>
+                        <span class="card-title">Humidity</span>
+                    </div>
+                    <div class="gauge-container">
+                        <canvas class="sensor-gauge" width="120" height="80" data-value="0" data-max="100" data-unit="%"></canvas>
+                        <div class="gauge-value">
+                            <span class="value-number">0</span>
+                            <span class="value-unit">%</span>
+                        </div>
+                    </div>
+                    <div class="card-description">Relative Humidity</div>
+                </div>
+
+                <!-- Temperature Sensor Card -->
+                <div class="sensor-gauge-card" data-sensor-id="TEMP-001" data-sensor-type="environmental" style="--card-color: #f97316;">
+                    <div class="card-header">
+                        <i class="fas fa-thermometer-half"></i>
+                        <span class="card-title">Temperature</span>
+                    </div>
+                    <div class="gauge-container">
+                        <canvas class="sensor-gauge" width="120" height="80" data-value="-273.1" data-max="40" data-min="-10" data-unit="°C"></canvas>
+                        <div class="gauge-value">
+                            <span class="value-number">-273.1</span>
+                            <span class="value-unit">°C</span>
+                        </div>
+                    </div>
+                    <div class="card-description">Ambient Temperature</div>
+                </div>
+
+                <!-- Wind Speed Sensor Card -->
+                <div class="sensor-gauge-card" data-sensor-id="WIND-001" data-sensor-type="meteorological" style="--card-color: #10b981;">
+                    <div class="card-header">
+                        <i class="fas fa-wind"></i>
+                        <span class="card-title">Wind Speed</span>
+                    </div>
+                    <div class="gauge-container">
+                        <canvas class="sensor-gauge" width="120" height="80" data-value="0" data-max="25" data-unit="m/s"></canvas>
+                        <div class="gauge-value">
+                            <span class="value-number">0</span>
+                            <span class="value-unit">m/s</span>
+                        </div>
+                    </div>
+                    <div class="card-description">Wind Velocity</div>
+                </div>
+
+                <!-- Wind Direction Sensor Card -->
+                <div class="sensor-gauge-card" data-sensor-id="DIR-001" data-sensor-type="meteorological" style="--card-color: #8b5cf6;">
+                    <div class="card-header">
+                        <i class="fas fa-compass"></i>
+                        <span class="card-title">Wind Direction</span>
+                    </div>
+                    <div class="gauge-container">
+                        <canvas class="sensor-gauge" width="120" height="80" data-value="104" data-max="360" data-unit="°"></canvas>
+                        <div class="gauge-value">
+                            <span class="value-number">104</span>
+                            <span class="value-unit">°</span>
+                        </div>
+                    </div>
+                    <div class="card-description">Wind Compass Direction</div>
+                </div>
+
+                <!-- Signal Strength Card -->
+                <div class="sensor-gauge-card" data-sensor-id="RSSI-001" data-sensor-type="network" style="--card-color: #ef4444;">
+                    <div class="card-header">
+                        <i class="fas fa-signal"></i>
+                        <span class="card-title">Signal Strength</span>
+                    </div>
+                    <div class="gauge-container">
+                        <canvas class="sensor-gauge" width="120" height="80" data-value="-83" data-max="0" data-min="-100" data-unit="dBm"></canvas>
+                        <div class="gauge-value">
+                            <span class="value-number">-83</span>
+                            <span class="value-unit">dBm</span>
+                        </div>
+                    </div>
+                    <div class="card-description">Network Signal Quality</div>
+                </div>
+            </div>
+
+            <!-- Historical Data Trends Section -->
+            <div class="chart-section" data-chart-section="historical-trends" data-time-range="24h">
+                <div class="chart-header">
+                    <h4 class="chart-title">SENSOR DATA TRENDS</h4>
+                    <p class="chart-subtitle">Real-time monitoring</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="lineChart" data-chart-type="multi-line-temporal" data-sensors="temperature,humidity,pm25"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="sensor-dashboard.js"></script>
+    <script>
+        // Unified button action handler
+        function handleMenuAction(action) {
+            console.log('Menu action triggered:', action);
+            
+            // Handle different actions
+            switch(action) {
+                case 'dashboard':
+                    // Show dashboard view - highlight active state
+                    setActiveButton(action);
+                    console.log('Switching to Dashboard view');
+                    break;
+                case 'live-data':
+                    // Show live data stream
+                    setActiveButton(action);
+                    console.log('Switching to Live Data view');
+                    break;
+                case 'alerts':
+                    // Show alerts/notifications
+                    setActiveButton(action);
+                    console.log('Opening Alerts panel');
+                    break;
+                case 'export':
+                    // Export data functionality
+                    console.log('Exporting sensor data');
+                    break;
+                case 'calibration':
+                    // Open calibration settings
+                    console.log('Opening Calibration panel');
+                    break;
+                case 'settings':
+                    // Open general settings
+                    console.log('Opening Settings panel');
+                    break;
+                default:
+                    console.log('Unknown action:', action);
+            }
+        }
+        
+        // Set active button state
+        function setActiveButton(activeAction) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.menu-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Add active class to clicked button
+            document.querySelectorAll(`[data-action="${activeAction}"]`).forEach(btn => {
+                if (btn.classList.contains('menu-btn') && !btn.classList.contains('menu-dropdown')) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+        
+        // Initialize functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownToggle = document.getElementById('dropdownToggle');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            
+            // Toggle dropdown
+            dropdownToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                dropdownMenu.classList.toggle('show');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function() {
+                dropdownMenu.classList.remove('show');
+            });
+            
+            // Handle all menu button clicks (both dashboard menu and dropdown)
+            document.addEventListener('click', function(e) {
+                const button = e.target.closest('[data-action]');
+                if (button && button.getAttribute('data-action') !== 'more') {
+                    const action = button.getAttribute('data-action');
+                    handleMenuAction(action);
+                    
+                    // Close dropdown if click came from dropdown item
+                    if (button.classList.contains('dropdown-item')) {
+                        dropdownMenu.classList.remove('show');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
