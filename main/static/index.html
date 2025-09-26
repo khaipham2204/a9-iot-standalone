@@ -1,47 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Environmental Sensor Dashboard | Real-time Air Quality Monitoring</title>
-    <meta name="description" content="Real-time environmental sensor monitoring dashboard with air quality index, PM2.5, temperature, humidity, and network status tracking">
-    <meta name="keywords" content="environmental sensors, air quality, AQI, PM2.5, temperature, humidity, IoT dashboard, real-time monitoring">
+    <meta name="description"
+        content="Real-time environmental sensor monitoring dashboard with air quality index, PM2.5, temperature, humidity, and network status tracking">
+    <meta name="keywords"
+        content="environmental sensors, air quality, AQI, PM2.5, temperature, humidity, IoT dashboard, real-time monitoring">
     <meta name="author" content="Environmental Monitoring Solutions">
     <meta name="robots" content="index, follow">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sensor-dashboard.example.com">
     <meta property="og:title" content="Environmental Sensor Dashboard - Real-time Monitoring">
-    <meta property="og:description" content="Professional environmental sensor monitoring with real-time air quality data">
+    <meta property="og:description"
+        content="Professional environmental sensor monitoring with real-time air quality data">
     <meta property="og:image" content="/assets/dashboard-preview.png">
-    
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://sensor-dashboard.example.com">
     <meta property="twitter:title" content="Environmental Sensor Dashboard">
     <meta property="twitter:description" content="Real-time environmental sensor monitoring dashboard">
     <meta property="twitter:image" content="/assets/dashboard-preview.png">
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    
+
     <!-- Progressive Web App -->
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#1e3c72">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Sensor Dashboard">
-    
+
     <!-- API and Service Information -->
     <meta name="api-version" content="v1.2">
     <meta name="service-type" content="environmental-monitoring">
     <meta name="data-refresh-rate" content="30000">
-    
+
     <link rel="stylesheet" href="sensor-dashboard.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
+
+    <!-- Chart.js for line charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Add this line for date adapter -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
     <!-- Structured Data for Search Engines -->
     <script type="application/ld+json">
     {
@@ -67,434 +76,614 @@
     }
     </script>
 </head>
+
 <body>
     <!-- Environmental Sensor Monitoring Dashboard -->
-    <div class="dashboard-container" data-dashboard-type="environmental-sensors" data-refresh-interval="30" data-api-version="v1.2">
-        <!-- Left Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h2>HARDWARE MONITORING</h2>
-                <p class="date-range">Real-time System Status</p>
-            </div>
-            
-            <div class="metrics-list">
-                <div class="metric-item">
-                    <span class="metric-label">CPU Usage</span>
-                    <div class="metric-value">
-                        <span class="value">12.5%</span>
-                        <span class="change positive">▲ 2.1%</span>
-                    </div>
-                </div>
-                
-                <div class="metric-item">
-                    <span class="metric-label">RAM Usage</span>
-                    <div class="metric-value">
-                        <span class="value">45.2%</span>
-                        <span class="change negative">▼ 3.5%</span>
-                    </div>
-                </div>
-                
-                <div class="metric-item">
-                    <span class="metric-label">Disk Usage</span>
-                    <div class="metric-value">
-                        <span class="value">39.5%</span>
-                        <span class="change positive">▲ 1.2%</span>
-                    </div>
-                </div>
-                
-                <div class="metric-item">
-                    <span class="metric-label">Total Disk Space</span>
-                    <div class="metric-value">
-                        <span class="value">284 GB</span>
-                        <span class="change neutral">—</span>
-                    </div>
-                </div>
-                
-                <div class="metric-item">
-                    <span class="metric-label">Used Disk Space</span>
-                    <div class="metric-value">
-                        <span class="value">112 GB</span>
-                        <span class="change positive">▲ 0.8%</span>
-                    </div>
-                </div>
-                
-                <div class="metric-item">
-                    <span class="metric-label">System Uptime</span>
-                    <div class="metric-value">
-                        <span class="value">2d 17h 9m</span>
-                        <span class="change positive">Running</span>
-                    </div>
-                </div>
-                
-                <div class="metric-item">
-                    <span class="metric-label">Network Sent</span>
-                    <div class="metric-value">
-                        <span class="value">1.0 MB</span>
-                        <span class="change positive">▲ 5.2%</span>
-                    </div>
-                </div>
-                
-                <div class="metric-item">
-                    <span class="metric-label">Network Received</span>
-                    <div class="metric-value">
-                        <span class="value">2.0 MB</span>
-                        <span class="change positive">▲ 8.1%</span>
-                    </div>
-                </div>
-            </div>
-        </aside>
+    <div class="dashboard-container">
+
+        <!-- Top Navigation Tabs -->
+        <div class="top-nav-tabs">
+            <div class="nav-tab active" data-tab="sensors">Sensors</div>
+            <div class="nav-tab" data-tab="network">Network</div>
+            <div class="nav-tab" data-tab="settings">Advanced Settings</div>
+            <div class="nav-tab" data-tab="quick">Quick Settings</div>
+        </div>
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Header Section -->
-            <div class="main-header">
-                <div class="funnel-header">
-                    <h3>SENSOR NETWORK STATUS</h3>
-                    <p class="date-range">Real-time monitoring (Active) ▼</p>
-                </div>
-                
-                <!-- Dashboard Menu Bar -->
-                <div class="dashboard-menu">
-                    <div class="menu-group primary">
-                        <button class="menu-btn active" data-action="dashboard">
-                            <i class="fas fa-chart-line"></i>
-                            <span>Dashboard</span>
-                        </button>
-                        <button class="menu-btn" data-action="live-data">
-                            <i class="fas fa-broadcast-tower"></i>
-                            <span>Live Data</span>
-                        </button>
-                        <button class="menu-btn" data-action="alerts">
-                            <i class="fas fa-bell"></i>
-                            <span>Alerts</span>
-                            <span class="notification-badge">3</span>
-                        </button>
+
+            <!-- Sensors Tab Content -->
+            <div class="tab-content active" id="sensors-tab">
+                <!-- Environmental Sensors Section -->
+                <div class="sensors-section">
+                    <div class="section-header">
+                        <h2>Environmental Sensors</h2>
+                        <p>Real-time monitoring data</p>
                     </div>
-                    
-                    <div class="menu-group secondary">
-                        <button class="menu-btn" data-action="export">
-                            <i class="fas fa-download"></i>
-                            <span>Export</span>
-                        </button>
-                        <button class="menu-btn" data-action="calibration">
-                            <i class="fas fa-cogs"></i>
-                            <span>Calibration</span>
-                        </button>
-                        <button class="menu-btn" data-action="settings">
-                            <i class="fas fa-sliders-h"></i>
-                            <span>Settings</span>
-                        </button>
-                        <button class="menu-btn menu-dropdown" data-action="more">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="header-cards-container">
-                    <!-- AQI Index Card -->
-                    <div class="aqi-card">
-                        <div class="aqi-header">
-                            <span class="aqi-title">AIR QUALITY INDEX (AQI)</span>
-                            <span class="aqi-location">Current Location</span>
-                        </div>
-                        <div class="aqi-content">
-                            <div class="aqi-value">
-                                <span class="aqi-number">42</span>
-                                <div class="aqi-label-container">
-                                    <i class="fas fa-leaf aqi-icon good"></i>
-                                    <span class="aqi-label">Good</span>
-                                </div>
-                            </div>
-                            <div class="aqi-details">
-                                <div class="aqi-metric">
-                                    <span class="metric-name">PM2.5</span>
-                                    <span class="metric-value">8 µg/m³</span>
-                                </div>
-                                <div class="aqi-metric">
-                                    <span class="metric-name">PM10</span>
-                                    <span class="metric-value">15 µg/m³</span>
-                                </div>
-                                <div class="aqi-metric">
-                                    <span class="metric-name">O₃</span>
-                                    <span class="metric-value">65 µg/m³</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- <div class="aqi-status good">
-                            <i class="fas fa-check-circle"></i>
-                            Air quality is satisfactory and poses little or no risk
-                        </div> -->
-                        
-                        <!-- AQI Warning Levels -->
-                        <div class="aqi-warning-levels">
-                            <div class="warning-level good active">
+
+                    <!-- Sensor Cards Grid -->
+                    <div class="sensor-grid">
+
+                        <!-- AQI Card -->
+                        <div class="sensor-card aqi-card" data-sensor="aqi" data-sensor-name="Air Quality Index"
+                            data-unit="AQI" data-color="#4ade80">
+                            <div class="sensor-icon">
                                 <i class="fas fa-leaf"></i>
-                                <span>Good</span>
                             </div>
-                            <div class="warning-level moderate">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <span>Moderate</span>
+                            <h3>Air Quality</h3>
+                            <div class="sensor-value">
+                                <span class="value-large">42</span>
+                                <span class="value-unit">AQI</span>
                             </div>
-                            <div class="warning-level unhealthy">
-                                <i class="fas fa-exclamation-circle"></i>
-                                <span>Unhealthy</span>
-                            </div>
-                            <div class="warning-level hazardous">
-                                <i class="fas fa-skull-crossbones"></i>
-                                <span>Hazardous</span>
-                            </div>
+                            <div class="sensor-status good">Good</div>
                         </div>
-                    </div>
-                    
-                    <div class="revenue-leaderboard">
-                    <div class="revenue-header">
-                        <span class="revenue-title">SENSOR NODES OVERVIEW</span>
-                        <!-- <span class="revenue-date">Last updated: 2 min ago ▼</span> -->
-                    </div>
-                    <div class="revenue-table">
-                        <div class="table-header">
-                            <span>ID</span>
-                            <span>LOCATION</span>
-                            <span>STATUS CONNECTION</span>
-                            <span>Battery Level</span>
 
-                        </div>
-                        <div class="table-row">
-                            <span>SN-001</span>
-                            <span>Building A - Floor 2</span>
-                            <span class="status-connected">CONNECTED</span>
-                            <span class="battery-level">85%</span>
-                        </div>
-                        <!-- <div class="table-row">
-                            <span>SN-002</span>
-                            <span>Building B - Lobby</span>
-                            <span class="status-connected">CONNECTED</span>
-                        </div>
-                        <div class="table-row">
-                            <span>SN-003</span>
-                            <span>Outdoor - East Wing</span>
-                            <span class="status-warning">UNSTABLE</span>
-                        </div>
-                        <div class="table-row">
-                            <span>SN-004</span>
-                            <span>Building C - Rooftop</span>
-                            <span class="status-disconnected">OFFLINE</span>
-                        </div> -->
-                    </div>
-                </div>
-                </div>
-            </div>
-
-            <!-- Funnel Visualization -->
-            <!-- <div class="funnel-section">
-                <div class="funnel-bars">
-                    <div class="funnel-bar discovery">
-                        <div class="bar-content">
-                            <span class="bar-label">Discovery</span>
-                            <span class="bar-amount">$5</span>
-                        </div>
-                        <div class="bar-progress" data-percentage="167.95%"></div>
-                    </div>
-                    
-                    <div class="funnel-bar demos">
-                        <div class="bar-content">
-                            <span class="bar-label">Demos or Follow-Up</span>
-                            <span class="bar-amount">$8</span>
-                        </div>
-                        <div class="bar-progress" data-percentage="167.95%"></div>
-                    </div>
-                    
-                    <div class="funnel-bar proposals">
-                        <div class="bar-content">
-                            <span class="bar-label">Proposals</span>
-                            <span class="bar-amount">$9</span>
-                        </div>
-                        <div class="bar-progress" data-percentage="107.87%"></div>
-                    </div>
-                    
-                    <div class="funnel-bar negotiations">
-                        <div class="bar-content">
-                            <span class="bar-label">Negotiations</span>
-                            <span class="bar-amount">$4</span>
-                        </div>
-                        <div class="bar-progress" data-percentage="42.1%"></div>
-                    </div>
-                    
-                    <div class="funnel-bar final">
-                        <div class="bar-content">
-                            <span class="bar-label">Final Approval</span>
-                            <span class="bar-amount">$9</span>
-                        </div>
-                        <div class="bar-progress" data-percentage="236.15%"></div>
-                    </div>
-                    
-                    <div class="funnel-bar closed">
-                        <div class="bar-content">
-                            <span class="bar-label">Closed Won</span>
-                            <span class="bar-amount">$0</span>
-                        </div>
-                        <div class="bar-progress" data-percentage="0%"></div>
-                    </div>
-                </div>
-            </div> -->
-
-            <!-- Environmental Sensor Monitoring Section -->
-            <div class="sensor-gauges-container" data-sensor-grid="environmental-array" data-update-frequency="real-time">
-                <div class="sensor-gauges-row">
-                    <div class="gauge-card voc" data-sensor-id="VOC-001" data-sensor-type="air-quality" data-unit="ppb">
-                        <div class="gauge-header">
-                            <span class="gauge-title">VOC</span>
-                            <span class="gauge-subtitle">Volatile Organic Compounds</span>
-                        </div>
-                        <div class="gauge-container">
-                            <canvas id="vocGauge" width="200" height="120" data-chart-type="semicircle-gauge"></canvas>
-                            <div class="gauge-value">
-                                <span class="value-number">0</span>
-                                <span class="value-unit">ppb</span>
+                        <!-- Temperature Card -->
+                        <div class="sensor-card temp-card" data-sensor="temperature" data-sensor-name="Temperature"
+                            data-unit="°C" data-color="#f97316">
+                            <div class="sensor-icon">
+                                <i class="fas fa-thermometer-half"></i>
                             </div>
-                        </div>
-                        <div class="gauge-status neutral">Safe</div>
-                    </div>
-                    
-                    <div class="gauge-card pm25" data-sensor-id="PM25-001" data-sensor-type="particulate-matter" data-unit="µg/m³">
-                        <div class="gauge-header">
-                            <span class="gauge-title">PM2.5</span>
-                            <span class="gauge-subtitle">Fine Particulate Matter</span>
-                        </div>
-                        <div class="gauge-container">
-                            <canvas id="pm25Gauge" width="200" height="120" data-chart-type="semicircle-gauge"></canvas>
-                            <div class="gauge-value">
-                                <span class="value-number">1</span>
-                                <span class="value-unit">µg/m³</span>
-                            </div>
-                        </div>
-                        <div class="gauge-status good">Excellent</div>
-                    </div>
-                    
-                    <div class="gauge-card pm1" data-sensor-id="PM1-001" data-sensor-type="particulate-matter" data-unit="µg/m³">
-                        <div class="gauge-header">
-                            <span class="gauge-title">PM1</span>
-                            <span class="gauge-subtitle">Ultra-fine Particles</span>
-                        </div>
-                        <div class="gauge-container">
-                            <canvas id="pm1Gauge" width="200" height="120" data-chart-type="semicircle-gauge"></canvas>
-                            <div class="gauge-value">
-                                <span class="value-number">1</span>
-                                <span class="value-unit">µg/m³</span>
-                            </div>
-                        </div>
-                        <div class="gauge-status good">Excellent</div>
-                    </div>
-                </div>
-                
-                <div class="sensor-gauges-row">
-                    <div class="gauge-card pm10" data-sensor-id="PM10-001" data-sensor-type="particulate-matter" data-unit="µg/m³">
-                        <div class="gauge-header">
-                            <span class="gauge-title">PM10</span>
-                            <span class="gauge-subtitle">Coarse Particulate Matter</span>
-                        </div>
-                        <div class="gauge-container">
-                            <canvas id="pm10Gauge" width="200" height="120" data-chart-type="semicircle-gauge"></canvas>
-                            <div class="gauge-value">
-                                <span class="value-number">1.5</span>
-                                <span class="value-unit">µg/m³</span>
-                            </div>
-                        </div>
-                        <div class="gauge-status good">Excellent</div>
-                    </div>
-                    
-                    <div class="gauge-card humidity" data-sensor-id="HUM-001" data-sensor-type="environmental" data-unit="%">
-                        <div class="gauge-header">
-                            <span class="gauge-title">HUMIDITY</span>
-                            <span class="gauge-subtitle">Relative Humidity</span>
-                        </div>
-                        <div class="gauge-container">
-                            <canvas id="humidityGauge" width="200" height="120" data-chart-type="semicircle-gauge"></canvas>
-                            <div class="gauge-value">
-                                <span class="value-number">0</span>
-                                <span class="value-unit">%</span>
-                            </div>
-                        </div>
-                        <div class="gauge-status warning">Very Dry</div>
-                    </div>
-                    
-                    <div class="gauge-card temperature" data-sensor-id="TEMP-001" data-sensor-type="environmental" data-unit="°C">
-                        <div class="gauge-header">
-                            <span class="gauge-title">TEMPERATURE</span>
-                            <span class="gauge-subtitle">Ambient Temperature</span>
-                        </div>
-                        <div class="gauge-container">
-                            <canvas id="temperatureGauge" width="200" height="120" data-chart-type="semicircle-gauge"></canvas>
-                            <div class="gauge-value">
-                                <span class="value-number">22.5</span>
+                            <h3>Temperature</h3>
+                            <div class="sensor-value">
+                                <span class="value-large">25.3</span>
                                 <span class="value-unit">°C</span>
                             </div>
+                            <div class="sensor-status normal">Normal</div>
                         </div>
-                        <div class="gauge-status good">Normal</div>
-                    </div>
-                </div>
-                
-                <div class="sensor-gauges-row">
-                    <div class="gauge-card wind-speed" data-sensor-id="WIND-001" data-sensor-type="meteorological" data-unit="m/s">
-                        <div class="gauge-header">
-                            <span class="gauge-title">WIND SPEED</span>
-                            <span class="gauge-subtitle">Current Wind Speed</span>
+
+                        <!-- Humidity Card -->
+                        <div class="sensor-card humidity-card" data-sensor="humidity" data-sensor-name="Humidity"
+                            data-unit="%" data-color="#06b6d4">
+                            <div class="sensor-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <h3>Humidity</h3>
+                            <div class="sensor-value">
+                                <span class="value-large">68</span>
+                                <span class="value-unit">%</span>
+                            </div>
+                            <div class="sensor-status normal">Normal</div>
                         </div>
-                        <div class="gauge-container">
-                            <canvas id="windSpeedGauge" width="200" height="120" data-chart-type="semicircle-gauge"></canvas>
-                            <div class="gauge-value">
-                                <span class="value-number">0</span>
+
+                        <!-- PM2.5 Card -->
+                        <div class="sensor-card pm25-card" data-sensor="pm25" data-sensor-name="PM2.5" data-unit="µg/m³"
+                            data-color="#ef4444">
+                            <div class="sensor-icon">
+                                <i class="fas fa-smog"></i>
+                            </div>
+                            <h3>PM2.5</h3>
+                            <div class="sensor-value">
+                                <span class="value-large">8</span>
+                                <span class="value-unit">µg/m³</span>
+                            </div>
+                            <div class="sensor-status good">Good</div>
+                        </div>
+
+                        <!-- PM10 Card -->
+                        <div class="sensor-card pm10-card" data-sensor="pm10" data-sensor-name="PM10" data-unit="µg/m³"
+                            data-color="#3b82f6">
+                            <div class="sensor-icon">
+                                <i class="fas fa-cloud"></i>
+                            </div>
+                            <h3>PM10</h3>
+                            <div class="sensor-value">
+                                <span class="value-large">15</span>
+                                <span class="value-unit">µg/m³</span>
+                            </div>
+                            <div class="sensor-status good">Good</div>
+                        </div>
+
+                        <!-- VOC Card -->
+                        <div class="sensor-card voc-card" data-sensor="voc" data-sensor-name="VOC" data-unit="ppb"
+                            data-color="#8b5cf6">
+                            <div class="sensor-icon">
+                                <i class="fas fa-wind"></i>
+                            </div>
+                            <h3>VOC</h3>
+                            <div class="sensor-value">
+                                <span class="value-large">0.2</span>
+                                <span class="value-unit">ppb</span>
+                            </div>
+                            <div class="sensor-status good">Good</div>
+                        </div>
+
+                        <!-- Wind Speed Card -->
+                        <div class="sensor-card wind-card" data-sensor="windspeed" data-sensor-name="Wind Speed"
+                            data-unit="m/s" data-color="#10b981">
+                            <div class="sensor-icon">
+                                <i class="fas fa-wind"></i>
+                            </div>
+                            <h3>Wind Speed</h3>
+                            <div class="sensor-value">
+                                <span class="value-large">2.3</span>
                                 <span class="value-unit">m/s</span>
                             </div>
+                            <div class="sensor-status normal">Normal</div>
                         </div>
-                        <div class="gauge-status calm">Calm</div>
-                    </div>
-                    
-                    <div class="gauge-card wind-direction" data-sensor-id="WDIR-001" data-sensor-type="meteorological" data-unit="°">
-                        <div class="gauge-header">
-                            <span class="gauge-title">WIND DIRECTION</span>
-                            <span class="gauge-subtitle">Wind Bearing</span>
-                        </div>
-                        <div class="gauge-container">
-                            <canvas id="windDirectionGauge" width="200" height="120" data-chart-type="semicircle-gauge"></canvas>
-                            <div class="gauge-value">
-                                <span class="value-number">104</span>
-                                <span class="value-unit">°</span>
+
+                        <!-- Pressure Card -->
+                        <div class="sensor-card pressure-card" data-sensor="pressure" data-sensor-name="Pressure"
+                            data-unit="hPa" data-color="#f59e0b">
+                            <div class="sensor-icon">
+                                <i class="fas fa-tachometer-alt"></i>
                             </div>
-                        </div>
-                        <div class="gauge-status direction">ESE</div>
-                    </div>
-                    
-                    <div class="gauge-card signal" data-sensor-id="SIG-001" data-sensor-type="network" data-unit="dBm">
-                        <div class="gauge-header">
-                            <span class="gauge-title">SIGNAL</span>
-                            <span class="gauge-subtitle">Network Signal Strength</span>
-                        </div>
-                        <div class="gauge-container">
-                            <canvas id="signalGauge" width="200" height="120" data-chart-type="semicircle-gauge"></canvas>
-                            <div class="gauge-value">
-                                <span class="value-number">-83</span>
-                                <span class="value-unit">dBm</span>
+                            <h3>Pressure</h3>
+                            <div class="sensor-value">
+                                <span class="value-large">1013</span>
+                                <span class="value-unit">hPa</span>
                             </div>
+                            <div class="sensor-status normal">Normal</div>
                         </div>
-                        <div class="gauge-status weak">Weak</div>
+
                     </div>
                 </div>
             </div>
 
-            <!-- Historical Data Trends Section -->
-            <div class="chart-section" data-chart-section="historical-trends" data-time-range="24h">
-                <div class="chart-header">
-                    <span>SENSOR DATA TRENDS</span>
-                    <span class="chart-date">Real-time monitoring ▼</span>
+            <!-- Sensor Detail View -->
+            <div class="sensor-detail-view" id="sensor-detail-view" style="display: none;">
+
+                <!-- Sensor Detail Header -->
+                <div class="sensor-detail-header">
+                    <button class="back-btn" data-action="back-to-sensors">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="sensor-detail-info">
+                        <h2 id="sensor-detail-title">Temperature Sensor</h2>
+                        <p id="sensor-detail-subtitle">24-hour historical data</p>
+                    </div>
+                    <div class="sensor-current-value">
+                        <span id="current-value">25.3</span>
+                        <span id="current-unit">°C</span>
+                    </div>
                 </div>
-                <div class="chart-container">
-                    <canvas id="lineChart" data-chart-type="multi-line-temporal" data-sensors="temperature,humidity,pm25"></canvas>
+
+                <!-- Sensor Chart Container -->
+                <div class="sensor-chart-container">
+                    <div class="chart-controls">
+                        <div class="time-range-buttons">
+                            <button class="time-btn active" data-range="24h">24 Hours</button>
+                            <button class="time-btn" data-range="7d">7 Days</button>
+                            <button class="time-btn" data-range="30d">30 Days</button>
+                        </div>
+                        <div class="chart-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Min:</span>
+                                <span class="stat-value" id="min-value">--</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Max:</span>
+                                <span class="stat-value" id="max-value">--</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Avg:</span>
+                                <span class="stat-value" id="avg-value">--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-wrapper">
+                        <canvas id="sensorChart" width="800" height="400"></canvas>
+                    </div>
+                </div>
+
+                <!-- Additional Sensor Info -->
+                <div class="sensor-info-grid">
+                    <div class="info-card">
+                        <div class="info-header">
+                            <i class="fas fa-info-circle"></i>
+                            <h4>Sensor Information</h4>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-row">
+                                <span class="info-label">Sensor ID:</span>
+                                <span class="info-value" id="sensor-id">TEMP-001</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Last Updated:</span>
+                                <span class="info-value" id="last-updated">2 minutes ago</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Status:</span>
+                                <span class="info-value status-online">Online</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Accuracy:</span>
+                                <span class="info-value">±0.1°C</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-header">
+                            <i class="fas fa-chart-line"></i>
+                            <h4>Data Analysis</h4>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-row">
+                                <span class="info-label">Trend:</span>
+                                <span class="info-value trend-stable" id="trend-indicator">Stable</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Data Points:</span>
+                                <span class="info-value" id="data-points">144</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Quality:</span>
+                                <span class="info-value quality-good">Good</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Next Update:</span>
+                                <span class="info-value" id="next-update">30 seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Network Tab Content -->
+            <div class="tab-content" id="network-tab">
+
+                <!-- Top Row - Status Cards -->
+                <div class="status-row">
+
+                    <!-- Connection Status Card -->
+                    <div class="status-card connection-card">
+                        <div class="card-icon">
+                            <i class="fas fa-cloud-check"></i>
+                        </div>
+                        <h3>Connect Status</h3>
+                        <div class="status-toggle">
+                            <span class="toggle-btn active">ON</span>
+                        </div>
+                        <div class="connection-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>0b/s</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-arrow-down"></i>
+                                <span>0b/s</span>
+                            </div>
+                        </div>
+                        <div class="timestamp">00:01:37</div>
+                    </div>
+
+                    <!-- Network Settings Card -->
+                    <div class="status-card network-card">
+                        <div class="card-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h3>Network Settings</h3>
+                        <div class="settings-list">
+                            <div class="setting-item" data-action="connection-settings">
+                                <span>Connection Settings</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                            <div class="setting-item">
+                                <span>Wi-Fi Settings</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Connected Devices Card -->
+                    <div class="status-card devices-card">
+                        <div class="card-icon">
+                            <i class="fas fa-router"></i>
+                        </div>
+                        <h3>Connected Devices</h3>
+                        <div class="device-count">
+                            <span class="count-number">1</span>
+                            <span class="count-label">wireless</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Bottom Row -->
+                <div class="bottom-row">
+
+                    <!-- Statistics Card -->
+                    <div class="status-card statistics-card">
+                        <div class="card-header">
+                            <span class="card-label">Statistics</span>
+                        </div>
+                        <div class="stats-content">
+                            <div class="usage-circle">
+                                <div class="circle-progress" data-percentage="65">
+                                    <div class="circle-inner">
+                                        <span class="usage-text">Used</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stats-footer">
+                                <span>Not set, click Settings</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Status Information Card -->
+                    <div class="status-card info-card">
+                        <div class="card-header">
+                            <span class="card-label">Status Information</span>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-grid">
+                                <div class="info-row">
+                                    <span class="info-label">SIM Card Number</span>
+                                    <span class="info-value">——</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">IMEI</span>
+                                    <span class="info-value">867417055141319</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">RSRQ</span>
+                                    <span class="info-value">23</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">SINR</span>
+                                    <span class="info-value">15</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">PCI</span>
+                                    <span class="info-value">308</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">IMSI</span>
+                                    <span class="info-value">452019906260700</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Signal Strength</span>
+                                    <span class="info-value">-89 dBm</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Network Name(SSID)</span>
+                                    <span class="info-value">uFi_0A1980</span>
+                                </div>
+                            </div>
+                            <div class="info-footer">
+                                <span>Detail Information</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Advanced Settings Tab Content -->
+            <div class="tab-content" id="settings-tab">
+                <div class="settings-placeholder">
+                    <div class="placeholder-content">
+                        <i class="fas fa-cogs"></i>
+                        <h3>Advanced Settings</h3>
+                        <p>Advanced configuration options will be available here</p>
+                    </div>
                 </div>
             </div>
+
+            <!-- Quick Settings Tab Content -->
+            <div class="tab-content" id="quick-tab">
+                <div class="quick-settings-grid">
+                    <div class="quick-setting-card">
+                        <div class="quick-icon">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <h4>WiFi Settings</h4>
+                        <p>Configure wireless network</p>
+                        <button class="quick-btn">Configure</button>
+                    </div>
+
+                    <div class="quick-setting-card">
+                        <div class="quick-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <h4>Notifications</h4>
+                        <p>Manage alerts and notifications</p>
+                        <button class="quick-btn">Setup</button>
+                    </div>
+
+                    <div class="quick-setting-card">
+                        <div class="quick-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h4>Auto Update</h4>
+                        <p>Set automatic data refresh</p>
+                        <button class="quick-btn">Enable</button>
+                    </div>
+
+                    <div class="quick-setting-card">
+                        <div class="quick-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <h4>Export Data</h4>
+                        <p>Download sensor logs</p>
+                        <button class="quick-btn">Export</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Connection Settings View -->
+            <div class="view-content" id="connection-settings-view" style="display: none;">
+
+                <!-- Connection Settings Header -->
+                <div class="settings-header">
+                    <button class="back-btn" data-action="back-to-network">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <h2>Connection Settings</h2>
+                </div>
+
+                <!-- Connection Settings Content -->
+                <div class="settings-container">
+
+                    <!-- Left Sidebar Menu -->
+                    <div class="settings-sidebar">
+                        <div class="sidebar-item active" data-setting="connection-mode">
+                            Connection Mode
+                        </div>
+                        <div class="sidebar-item" data-setting="network-selection">
+                            Network Selection
+                        </div>
+                        <div class="sidebar-item" data-setting="apn">
+                            APN
+                        </div>
+                    </div>
+
+                    <!-- Settings Content Area -->
+                    <div class="settings-main">
+
+                        <!-- Connection Mode Panel -->
+                        <div class="settings-panel active" id="connection-mode-panel">
+                            <div class="panel-content">
+                                <h3>Connection Mode</h3>
+                                <p class="panel-description">Connection Mode</p>
+
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="connection-mode" value="automatic" checked>
+                                        <span class="radio-custom"></span>
+                                        <span class="radio-label">Automatic</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="connection-mode" value="manual">
+                                        <span class="radio-custom"></span>
+                                        <span class="radio-label">Manual</span>
+                                    </label>
+                                </div>
+
+                                <p class="help-text">
+                                    <i class="fas fa-info-circle"></i>
+                                    Check here, you can connect to internet in the roaming status.
+                                </p>
+
+                                <div class="panel-actions">
+                                    <button class="apply-btn">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Network Selection Panel -->
+                        <div class="settings-panel" id="network-selection-panel">
+                            <div class="panel-content">
+                                <h3>Network Selection</h3>
+                                <p class="panel-description">Configure network selection settings</p>
+
+                                <div class="form-group">
+                                    <label>Network Mode</label>
+                                    <select class="form-select">
+                                        <option>Auto</option>
+                                        <option>Manual</option>
+                                    </select>
+                                </div>
+
+                                <div class="panel-actions">
+                                    <button class="apply-btn">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- APN Panel -->
+                        <div class="settings-panel" id="apn-panel">
+                            <div class="panel-content">
+                                <h3>APN</h3>
+
+                                <div class="apn-info">
+                                    <div class="info-row">
+                                        <span class="info-label">Current APN:</span>
+                                        <span class="info-value">Mobifone</span>
+                                    </div>
+                                </div>
+
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="apn-mode" value="auto" checked>
+                                        <span class="radio-custom"></span>
+                                        <span class="radio-label">Auto</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="apn-mode" value="manual">
+                                        <span class="radio-custom"></span>
+                                        <span class="radio-label">Manual</span>
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Profile</label>
+                                    <select class="form-select">
+                                        <option>Default</option>
+                                        <option>Custom</option>
+                                    </select>
+                                    <button class="cancel-btn">Cancel</button>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>PDP Type</label>
+                                    <select class="form-select">
+                                        <option>IPv4v6</option>
+                                        <option>IPv4</option>
+                                        <option>IPv6</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Profile Name *</label>
+                                    <input type="text" class="form-input" value="Mobifone"
+                                        placeholder="Enter profile name">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>APN *</label>
+                                    <input type="text" class="form-input" value="m-wap" placeholder="Enter APN">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Authentication</label>
+                                    <select class="form-select">
+                                        <option>NONE</option>
+                                        <option>PAP</option>
+                                        <option>CHAP</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>User Name</label>
+                                    <input type="text" class="form-input" placeholder="Enter username">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="password" class="form-input" placeholder="Enter password">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Dial No.</label>
+                                    <input type="text" class="form-input" placeholder="Enter dial number">
+                                </div>
+
+                                <div class="panel-actions">
+                                    <button class="apply-btn">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </main>
     </div>
 
     <script src="sensor-dashboard.js"></script>
+    <script src="chart-dashboard.js"></script>
+    
 </body>
+
 </html>

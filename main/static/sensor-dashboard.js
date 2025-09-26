@@ -6,6 +6,12 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeMenu();
     addInteractivity();
     animateNumbers();
+    
+    // Create the usage gauge
+    createUsageGauge();
+    
+    // Animate and create sensor gauges
+    animateGauges();
 });
 
 function initializeCharts() {
@@ -944,3 +950,176 @@ window.saveSettings = function() {
 window.resetSettings = function() {
     showNotification('Settings reset to default values', 'info');
 };
+
+// Add this function to create the usage gauge
+function createUsageGauge() {
+    const canvas = document.getElementById('usageGauge');
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = 45;
+    
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Usage percentage (1.32 GB out of 100 GB = 1.32%)
+    const usagePercent = 1.32;
+    const maxPercent = 100;
+    const angle = (usagePercent / maxPercent) * Math.PI; // Half circle
+    
+    // Draw background arc (gray)
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, Math.PI, 2 * Math.PI, false);
+    ctx.lineWidth = 8;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.stroke();
+    
+    // Draw usage arc (blue)
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, Math.PI, Math.PI + angle, false);
+    ctx.lineWidth = 8;
+    ctx.strokeStyle = '#2196f3';
+    ctx.lineCap = 'round';
+    ctx.stroke();
+    
+    // Draw usage indicator marks
+    drawGaugeMarks(ctx, centerX, centerY, radius);
+}
+
+function drawGaugeMarks(ctx, centerX, centerY, radius) {
+    const markRadius = radius + 15;
+    const marks = [0, 25, 50, 75, 100];
+    
+    marks.forEach(mark => {
+        const angle = Math.PI + (mark / 100) * Math.PI;
+        const x1 = centerX + (radius + 5) * Math.cos(angle);
+        const y1 = centerY + (radius + 5) * Math.sin(angle);
+        const x2 = centerX + (radius + 10) * Math.cos(angle);
+        const y2 = centerY + (radius + 10) * Math.sin(angle);
+        
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+        ctx.stroke();
+    });
+}
+
+/* filepath: d:\UI\Firmware\sensor-dashboard.js */
+// Function to create colorful sensor gauges
+function createSensorGauges() {
+    const sensorCards = document.querySelectorAll('.sensor-gauge-card');
+    
+    sensorCards.forEach(card => {
+        const canvas = card.querySelector('.sensor-gauge');
+        if (!canvas) return;
+        
+        const ctx = canvas.getContext('2d');
+        const value = parseFloat(canvas.dataset.value);
+        const maxValue = parseFloat(canvas.dataset.max) || 100;
+        const minValue = parseFloat(canvas.dataset.min) || 0;
+        const unit = canvas.dataset.unit || '';
+        
+        // Get card color from CSS custom property
+        const cardColor = getComputedStyle(card).getPropertyValue('--card-color').trim();
+        
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height - 10;
+        const radius = 35;
+        
+        // Calculate percentage
+        let percentage;
+        if (minValue < 0) {
+            // Handle negative values (like temperature)
+            percentage = (value - minValue) / (maxValue - minValue);
+        } else {
+            percentage = Math.abs(value) / maxValue;
+        }
+        
+        // Ensure percentage is between 0 and 1
+        percentage = Math.max(0, Math.min(1, percentage));
+        
+        const angle = percentage * Math.PI; // Semi-circle
+        
+        // Draw background arc
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, Math.PI, 2 * Math.PI, false);
+        ctx.lineWidth = 8;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+        ctx.stroke();
+        
+        // Create gradient for the gauge
+        const gradient = ctx.createLinearGradient(centerX - radius, centerY, centerX + radius, centerY);
+        gradient.addColorStop(0, cardColor);
+        gradient.addColorStop(1, 'rgba(255, 255, 255, 0.8)');
+        
+        // Draw value arc
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, Math.PI, Math.PI + angle, false);
+        ctx.lineWidth = 8;
+        ctx.strokeStyle = gradient;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+        
+        // Draw gauge markers
+        drawGaugeMarkers(ctx, centerX, centerY, radius);
+        
+        // Add glow effect
+        ctx.shadowColor = cardColor;
+        ctx.shadowBlur = 10;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, Math.PI, Math.PI + angle, false);
+        ctx.lineWidth = 8;
+        ctx.strokeStyle = cardColor;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+    });
+}
+
+function drawGaugeMarkers(ctx, centerX, centerY, radius) {
+    const markers = [0, 0.25, 0.5, 0.75, 1];
+    
+    markers.forEach(marker => {
+        const angle = Math.PI + (marker * Math.PI);
+        const x1 = centerX + (radius + 3) * Math.cos(angle);
+        const y1 = centerY + (radius + 3) * Math.sin(angle);
+        const x2 = centerX + (radius + 8) * Math.cos(angle);
+        const y2 = centerY + (radius + 8) * Math.sin(angle);
+        
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+        ctx.stroke();
+    });
+}
+
+// Add animation to gauge creation
+function animateGauges() {
+    const cards = document.querySelectorAll('.sensor-gauge-card');
+    
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        
+        setTimeout(() => {
+            card.style.transition = 'all 0.6s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+    
+    // Create gauges after animation starts
+    setTimeout(() => {
+        createSensorGauges();
+    }, 300);
+}
+
